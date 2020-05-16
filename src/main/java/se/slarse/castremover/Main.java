@@ -84,26 +84,25 @@ public class Main {
     private static Method removeDuplicateCheckcasts(MethodGen mg) {
         InstructionList il = mg.getInstructionList();
         InstructionFinder f = new InstructionFinder(il);
-        String pat = "CHECKCAST+";
+        String pat = "CHECKCAST CHECKCAST"; // match exactly two consecutive checkcast instructions
         int count = 0;
 
         for (Iterator<InstructionHandle[]> iter = f.search(pat); iter.hasNext();) {
             InstructionHandle[] match = iter.next();
 
-            InstructionHandle cur = match[0];
-            InstructionHandle next;
-            while ((next = cur.getNext()) != null && cur.getInstruction().equals(next.getInstruction())) {
-                try {
-                    il.delete(cur);
-                    count++;
-                } catch (TargetLostException e) {
-                    for (InstructionHandle target : e.getTargets()) {
-                        for (InstructionTargeter targeter : target.getTargeters()) {
-                            targeter.updateTarget(target, next);
-                        }
+
+            InstructionHandle first = match[0];
+            InstructionHandle second = match[1];
+
+            try {
+                il.delete(second);
+                count++;
+            } catch (TargetLostException e) {
+                for (InstructionHandle target : e.getTargets()) {
+                    for (InstructionTargeter targeter : target.getTargeters()) {
+                        targeter.updateTarget(target, first);
                     }
                 }
-                cur = next;
             }
         }
 
@@ -113,9 +112,9 @@ public class Main {
             System.out.println("Removed " + count + " duplicated CHECKCAST instructions from "
                     + mg.getClassName() + "#" + mg.getName());
             m = mg.getMethod();
+            il.dispose(); // Reuse instruction handles
         }
 
-        il.dispose(); // Reuse instruction handles
         return m;
     }
 }
