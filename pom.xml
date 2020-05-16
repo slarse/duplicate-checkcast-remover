@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>se.slarse</groupId>
+    <groupId>se.slar</groupId>
     <artifactId>duplicate-checkcast-remover</artifactId>
     <version>1.0.0</version>
     <build>
@@ -23,7 +23,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>se.slarse.castremover.Main</mainClass>
+                            <mainClass>se.slar.castremover.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

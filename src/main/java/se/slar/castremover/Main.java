@@ -1,4 +1,4 @@
-package se.slarse.castremover;
+package se.slar.castremover;
 
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.JavaClass;
