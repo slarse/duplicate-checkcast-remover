@@ -112,9 +112,9 @@ public class Main {
             System.out.println("Removed " + count + " duplicated CHECKCAST instructions from "
                     + mg.getClassName() + "#" + mg.getName());
             m = mg.getMethod();
-            il.dispose(); // Reuse instruction handles
         }
 
+        il.dispose(); // Reuse instruction handles
         return m;
     }
 }
