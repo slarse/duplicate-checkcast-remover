@@ -14,7 +14,7 @@ This application, largely based on [the "Peephole optimizer" example](https://co
 Running `duplicate-checkcast-remover` requires a Java runtime version 8 or higher.
 
 # Usage 
-Get the jar-file from [the latest release](https://github.com/slarse/duplicate-checkcast-remover/releases/tag/v1.0.0)
+Get the jar-file from [the latest release](https://github.com/slarse/duplicate-checkcast-remover/releases/tag/v1.0.1)
 and download it. Then run it like so.
 
 ```
