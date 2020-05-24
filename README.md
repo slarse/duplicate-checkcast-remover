@@ -10,26 +10,27 @@ enclose `obj` in parentheses, and two identical checkcast instructions are creat
 An extra checkcast does nothing functionally, but it messes with the bytecode diff analysis in Spork's evaluation.
 This application, largely based on [the "Peephole optimizer" example](https://commons.apache.org/proper/commons-bcel/manual/appendix.html)
 
-### Requirements
+## Requirements
 Running `duplicate-checkcast-remover` requires a Java runtime version 8 or higher.
 
-# Usage 
+## Usage 
 Get the jar-file from [the latest release](https://github.com/slarse/duplicate-checkcast-remover/releases/tag/v1.0.1)
 and download it. Then run it like so.
 
 ```
-$ java -jar duplicate-checkcast-remover-1.0.0-jar-with-dependencies.jar <CLASSFILE>
+$ java -jar duplicate-checkcast-remover-1.0.1-jar-with-dependencies.jar <CLASSFILE>
 ```
 
-### Build
+## Build
 Building requires JDK8+ and Maven. Build the jar with:
 
 ```
 $ mvn clean compile assembly:single
 ```
 
-### Use case
-Try compiling this file with OpenJDK8.
+## Example use case
+Try compiling this file with OpenJDK8 (I have not been able to reproduce the
+problem with any other JDK).
 
 ```java
 public class Main {
@@ -93,10 +94,13 @@ public class Main {
 }
 ```
 
-See that it added a checkcast another checkcast in the main method? Strange, right? It makes no functional difference,
-and probably doesn't affect performance either, but caused absolute havoc in the bytecode comparisons in my thesis
-project. Try using `duplicate-checkcast-remover` on the new classfile, and then viewing it again. The duplicated
-cast will be gone. Try running the file, too, it should still print 1!
+See that it added another checkcast in the main method (index 9)? Strange, right? It makes no functional difference,
+and probably doesn't affect performance either. It caused absolute havoc in my thesis project, however, as I needed to
+compare classfiles for equality. Rogue parentheses causing the comparison verdicts to become not equal caused major
+issues.
+
+Try using `duplicate-checkcast-remover` on the new classfile with the duplicated cast, and then viewing it again.
+The duplicated cast will be gone. Try running the file, too, it should still print 1!
 
 # License
 This project is licensed under the [Apache 2.0](LICENSE) license. It is almost a straight copy of
